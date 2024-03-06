@@ -90,7 +90,10 @@ namespace Calculated
                 CalculatorWithExtraColumn extraCalculator = new CalculatorWithExtraColumn();
                 extraCalculator.Left = this.Left;
                 extraCalculator.Top = this.Top;
+                extraCalculator.Height = this.Height;
+                extraCalculator.Width = this.Width;
                 extraCalculator.Show();
+                extraCalculator.output.Text = this.output.Text;
             }
             else
             {

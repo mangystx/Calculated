@@ -90,7 +90,10 @@ namespace Calculated
                 MainWindow newWindow = new MainWindow();
                 newWindow.Left = this.Left;
                 newWindow.Top = this.Top;
+                newWindow.Height = this.Height;
+                newWindow.Width = this.Width;
                 newWindow.Show();
+                newWindow.output.Text = this.output.Text;
             }
             else if (symbol == "log")
             {
@@ -102,8 +105,36 @@ namespace Calculated
             }
             else if (symbol == "^")
             {
-                output.Text += "^";
-            }
+				if (!string.IsNullOrWhiteSpace(output.Text))
+				{
+					// Разбиваем текстовое поле на числа и степень
+					string[] parts = output.Text.Split('^');
+
+					// Проверяем, есть ли два числа
+					if (parts.Length == 2)
+					{
+						// Пробуем парсить числа
+						if (double.TryParse(parts[0], out double number) && double.TryParse(parts[1], out double power))
+						{
+							// Возводим число в степень
+							double result = Math.Pow(number, power);
+
+							// Отображаем результат
+							output.Text = result.ToString();
+						}
+						else
+						{
+							// В случае ошибки парсинга чисел, можно вывести сообщение об ошибке или выполнить другое действие
+							MessageBox.Show("Некорректный формат чисел");
+						}
+					}
+					else
+					{
+						// В случае, если чисел не два, можно вывести сообщение об ошибке или выполнить другое действие
+						MessageBox.Show("Некорректный формат ввода. Ожидалось два числа, разделенных знаком ^");
+					}
+				}
+			}
             else if (symbol == "sqrt")
             {
                 if (!string.IsNullOrWhiteSpace(output.Text))
